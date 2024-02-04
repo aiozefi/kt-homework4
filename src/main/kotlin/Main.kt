@@ -97,6 +97,10 @@ object WallService {
         }
     }
 
+    fun clear() {
+        posts = emptyArray()
+    }
+
     fun getPosts(): List<Post> {
         return posts.toList()
     }
