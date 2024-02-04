@@ -1,18 +1,13 @@
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
-import org.junit.Before
 import org.junit.Test
 
 class WallServiceTest {
 
-    @Before
-    fun clearBeforeTest() {
-        WallService.clear()
-    }
     @Test
     fun addPost_shouldAssignNonZeroId() {
         val post = Post(
-            id = 0,
+            id = 1,
             ownerId = 100,
             fromId = 101,
             createdBy = 101,
