@@ -304,4 +304,16 @@ fun main() {
 
     println("\nОтредактированные посты:")
     WallService.getPosts().forEach { println(it) }
+
+    val attachment = post1.attachments[0]
+    println(
+        when (attachment){
+            is AudioAttachment -> "Has audio : ${attachment.audio}"
+            is VideoAttachment -> "Has video : ${attachment.video}"
+            is PhotoAttachment -> "Has photo : ${attachment.photo}"
+            is StickerAttachment -> "Has sticker : ${attachment.sticker}"
+            is FileAttachment -> "Has file : ${attachment.file}"
+            else -> "Unknown attachment"
+        }
+    )
 }
