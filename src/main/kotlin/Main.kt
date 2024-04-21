@@ -23,15 +23,15 @@ data class Views(
 )
 
 data class Geo(
-    val type: String,
-    val coordinates: String,
-    val place: Place
+    val type: String?,
+    val coordinates: String?,
+    val place: Place?
 )
 
 data class Place(
-    val title: String,
-    val country: String,
-    val city: String
+    val title: String?,
+    val country: String?,
+    val city: String?
 )
 
 data class Donut(
@@ -51,21 +51,21 @@ data class Post(
     val id: Int,
     val ownerId: Int,
     val fromId: Int,
-    val createdBy: Int,
+    val createdBy: Int?,
     val date: Int,
     val text: String,
-    val replyOwnerId: Int,
-    val replyPostId: Int,
+    val replyOwnerId: Int?,
+    val replyPostId: Int?,
     val friendsOnly: Boolean,
     val comments: Comments,
     val likes: Likes,
     val reposts: Reposts,
     val views: Views,
     val postType: String,
-    val attachments: List<Any>,
+    val attachments: List<Any>?,
     val geo: Geo,
     val signerId: Int,
-    val copyHistory: List<Any>,
+    val copyHistory: List<Any>?,
     val canPin: Boolean,
     val canDelete: Boolean,
     val canEdit: Boolean,
@@ -73,9 +73,124 @@ data class Post(
     val markedAsAds: Int,
     val isFavorite: Boolean,
     val donut: Donut,
-    val postponedId: Int
+    val postponedId: Int?
 )
 
+abstract class Attachment(val type: String)
+
+data class Audio(
+    val id: Int,
+    val ownerId: Int,
+    val artist: String,
+    val title: String,
+    val duration: Int,
+    val url: String,
+    val lyricsId: Int,
+    val albumId: Int,
+    val genreId: Int,
+    val date: Int,
+    val noSearch: Boolean,
+    val isHq: Boolean
+)
+data class audioAttachment(val audio: Audio): Attachment("audio")
+data class Video(
+    val id: Int,
+    val ownerId: Int,
+    val title: String,
+    val description: String,
+    val duration: Int,
+    val images: List<Image>,
+    val firstFrames: List<Image>,
+    val date: Int,
+    val addingDate: Int,
+    val views: Int,
+    val localViews: Int?,
+    val comments: Int?,
+    val player: String,
+    val platform: String?,
+    val canAdd: Boolean,
+    val isPrivate: Boolean?,
+    val accessKey: String?,
+    val processing: Boolean?,
+    val isFavorite: Boolean,
+    val canComment: Boolean,
+    val canEdit: Boolean,
+    val canLike: Boolean,
+    val canRepost: Boolean,
+    val canSubscribe: Boolean,
+    val canAddToFaves: Boolean,
+    val canAttachLink: Boolean,
+    val width: Int,
+    val height: Int,
+    val userId: Int?,
+    val converting: Boolean?,
+    val added: Boolean?,
+    val isSubscribed: Boolean?,
+    val repeat: Boolean?,
+    val type: String,
+    val balance: Int?,
+    val live: Boolean?,
+    val liveStartTime: Int?,
+    val liveStatus: String?,
+    val upcoming: Boolean?,
+    val spectators: Int?
+)
+
+data class Image(
+    val height: Int,
+    val url: String,
+    val width: Int,
+    val withPadding: Boolean?
+)
+data class videoAttachment(val video: Video): Attachment("video")
+
+data class StickerImage(
+    val url: String,    // URL копии изображения
+    val width: Int,
+    val height: Int
+)
+
+data class Sticker(
+    val productId: Int,                     // Идентификатор набора
+    val stickerId: Int,
+    val images: List<StickerImage>,
+    val imagesWithBackground: List<StickerImage>,
+    val animationUrl: String?,
+    val isAllowed: Boolean
+)
+data class stickerAttachment(val sticker: Sticker): Attachment("sticker")
+
+data class File(
+    val id: Int,               // Идентификатор файла
+    val ownerId: Int,          // Идентификатор пользователя, загрузившего файл
+    val title: String,         // Название файла
+    val size: Int,             // Размер файла в байтах
+    val ext: String,           // Расширение файла
+    val url: String,           // Адрес файла для загрузки
+    val date: Int,             // Дата добавления в формате Unixtime
+    val type: Int              // Тип файла
+)
+data class fileAttachment(val file: File): Attachment("file")
+data class PhotoSize(
+    val type: String,
+    val url: String,
+    val width: Int,
+    val height: Int
+)
+
+data class Photo(
+    val id: Int,
+    val albumId: Int,
+    val ownerId: Int,
+    val userId: Int?,
+    val text: String?,
+    val date: Int,
+    val sizes: List<PhotoSize>,  // Массив копий изображения в разных размерах
+    val width: Int,
+    val height: Int
+)
+
+data class photoAttachment(val photo: Photo): Attachment("photo")
 object WallService {
     private var nextId: Int = 1
     private var posts = emptyArray<Post>()
