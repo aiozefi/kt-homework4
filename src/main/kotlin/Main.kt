@@ -62,7 +62,7 @@ data class Post(
     val reposts: Reposts,
     val views: Views,
     val postType: String,
-    val attachments: List<Any>?,
+    val attachments: Array <Attachment> = emptyArray(),
     val geo: Geo,
     val signerId: Int,
     val copyHistory: List<Any>?,
@@ -92,7 +92,7 @@ data class Audio(
     val noSearch: Boolean,
     val isHq: Boolean
 )
-data class audioAttachment(val audio: Audio): Attachment("audio")
+data class AudioAttachment(val audio: Audio): Attachment("audio")
 data class Video(
     val id: Int,
     val ownerId: Int,
@@ -142,7 +142,7 @@ data class Image(
     val width: Int,
     val withPadding: Boolean?
 )
-data class videoAttachment(val video: Video): Attachment("video")
+data class VideoAttachment(val video: Video): Attachment("video")
 
 data class StickerImage(
     val url: String,    // URL копии изображения
@@ -158,7 +158,7 @@ data class Sticker(
     val animationUrl: String?,
     val isAllowed: Boolean
 )
-data class stickerAttachment(val sticker: Sticker): Attachment("sticker")
+data class StickerAttachment(val sticker: Sticker): Attachment("sticker")
 
 data class File(
     val id: Int,               // Идентификатор файла
@@ -170,7 +170,7 @@ data class File(
     val date: Int,             // Дата добавления в формате Unixtime
     val type: Int              // Тип файла
 )
-data class fileAttachment(val file: File): Attachment("file")
+data class FileAttachment(val file: File): Attachment("file")
 data class PhotoSize(
     val type: String,
     val url: String,
@@ -190,7 +190,7 @@ data class Photo(
     val height: Int
 )
 
-data class photoAttachment(val photo: Photo): Attachment("photo")
+data class PhotoAttachment(val photo: Photo): Attachment("photo")
 object WallService {
     private var nextId: Int = 1
     private var posts = emptyArray<Post>()
@@ -237,7 +237,19 @@ fun main() {
         reposts = Reposts(2, true),
         views = Views(100),
         postType = "post",
-        attachments = emptyList(),
+        attachments = arrayOf(AudioAttachment(Audio(
+            1,
+            23,
+            "Meto",
+            "Шут",
+            200,
+            "url",
+            1,
+            2,
+            3,
+            1639923521,
+            false,
+            true))),
         geo = Geo("point", "56.8372,60.5960", Place("Екатеринбург", "Россия", "Екатеринбург")),
         signerId = 0,
         copyHistory = emptyList(),
@@ -266,7 +278,7 @@ fun main() {
         reposts = Reposts(1, false),
         views = Views(50),
         postType = "post",
-        attachments = emptyList(),
+        attachments = emptyArray(),
         geo = Geo("point", "55.751244,37.618423", Place("Москва", "Россия", "Москва")),
         signerId = 0,
         copyHistory = emptyList(),
